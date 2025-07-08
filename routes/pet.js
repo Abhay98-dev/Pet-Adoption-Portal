@@ -29,4 +29,38 @@ router.post("/",async(req,res)=>{
     }
 })
 
+router.put("/",async(req,res)=>{
+    const {name,type,description,breed}=req.body
+    if(!name||!type||!description||!breed){
+        return res.status(400).json({error:"All fields must be filled"})
+    }
+    try{
+        const pet=Pet.findOne({name,type})
+        if(!pet){
+            return res.status(400).json({message:"Pet not found"})
+        }
+        console.log(pet)
+        
+    }
+})
+
+router.delete("/",async (req,res)=>{
+    const {name , type}=req.body
+    if(!name||!type){
+        return res.status(400).json({error:"Name and Type must be mentioned"})
+    }
+    try{
+        const pet=await Pet.findOne({name,type})
+        if(!pet){
+            return res.status(400).json({message:"pet not found"})
+        }
+        console.log("Found pet:", pet);
+        await Pet.deleteOne({ _id: pet._id })
+        res.status(200).json({message:"Pet deleted"})
+    }
+    catch(err){
+        res.status(500).json({message:"Internal Server Error"})
+    }
+})
+
 module.exports = router
