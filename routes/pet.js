@@ -29,18 +29,28 @@ router.post("/",async(req,res)=>{
     }
 })
 
-router.put("/",async(req,res)=>{
-    const {name,type,description,breed}=req.body
-    if(!name||!type||!description||!breed){
-        return res.status(400).json({error:"All fields must be filled"})
+router.put("/:id",async(req,res)=>{
+    const {name,type,description, breed}=req.body
+    const petId = req.params.id;
+    if(!name||!type||!description|| !breed){
+        return res.status(400).json({error:"All the fields are required"})
     }
     try{
-        const pet=Pet.findOne({name,type})
+        const pet=await Pet.findOne({_id:petId})
         if(!pet){
             return res.status(400).json({message:"Pet not found"})
         }
         console.log(pet)
-        
+        const updated_pet=await Pet.findByIdAndUpdate(
+            petId,
+            {name,type,description, breed},
+            {new:true}
+        )
+        res.status(200).json({message:"Pet updated",pet:updated_pet})
+    }
+    catch(err){
+        console.log("Error updating pet :",err)
+        res.status(500).json({message:"Internal Server Error"})
     }
 })
 

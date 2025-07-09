@@ -5,6 +5,7 @@ const path=require("path")
 const pet_router= require("./routes/pet")
 express.urlencoded({extended:true})
 app.use(express.json())
+const auth_router=require("./routes/auth")
 
 app.set("view engine","ejs")
 app.use(express.urlencoded({extended:true}))
@@ -21,6 +22,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/pet",pet_router)
+app.use("/auth",auth_router)
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000")
