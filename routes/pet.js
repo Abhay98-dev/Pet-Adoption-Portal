@@ -2,13 +2,14 @@ const express = require("express")
 const router = express.Router()
 const Pet=require("../module/pet_info")
 express.urlencoded({extended:true})
+const verifyToken = require("../middleware/verifyToken")
 
 router.get("/", async (req,res)=>{
     const data= await Pet.find()
     res.json(data)
 })
 
-router.post("/",async(req,res)=>{
+router.post("/",verifyToken,async(req,res)=>{
     const {name,type,description,breed}=req.body
     if(!name||!type||!description||!breed){
         return res.status(400).json({error:"All fields must be filled"})
@@ -29,7 +30,7 @@ router.post("/",async(req,res)=>{
     }
 })
 
-router.put("/:id",async(req,res)=>{
+router.put("/:id",verifyToken,async(req,res)=>{
     const {name,type,description, breed}=req.body
     const petId = req.params.id;
     if(!name||!type||!description|| !breed){
@@ -54,7 +55,7 @@ router.put("/:id",async(req,res)=>{
     }
 })
 
-router.delete("/",async (req,res)=>{
+router.delete("/",verifyToken,async (req,res)=>{
     const {name , type}=req.body
     if(!name||!type){
         return res.status(400).json({error:"Name and Type must be mentioned"})
