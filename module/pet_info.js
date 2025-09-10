@@ -16,8 +16,12 @@ const petSchema = mongoose.Schema({
     breed:{
         type:String,
         required:true
+    },
+    image:{
+        type:String,
+        required:true
     }
-})
+},{timestamp:true})
 
 const Pet= mongoose.model("Pet",petSchema)
 

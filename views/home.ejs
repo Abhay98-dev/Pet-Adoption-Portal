@@ -1,86 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Adoption Portal</title>
+  <link rel="stylesheet" href="/style.css"> 
 </head>
 <body>
-     
-    <div id="navigationbar"> 
-        <a href="#">CONTACT US</a>
-        <a href="#">DONATE</a>
-        <a href="#">PETS</a>
-        <a href="#">SHOP</a>
-        <input placeholder="Login Here">
-        <button>sign.in</button> </div>   
-    <br>
-    <div id="hello">
-    <h1>HELLO PETFINDERS</h1></div> 
+  <!-- Header -->
+  <header>
+    <nav>
+      <h1>🐾 Pet Adoption Portal</h1>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <br>
-    <div id="parah">
-    <p>There’s something magical about the moment a rescued animal becomes part of your family. 
-It’s a transformation that goes beyond simply acquiring a pet—it’s about creating a bond that changes both lives forever</p></div>
-    <br>
-    <div id="friends">
-    <h2>TRUE FRIENDS ARE WAITING TO SEE YOU</h2></div>
-    <br>
-    <div id="location"><input placeholder="enter your location to find pets nearby">
-    <button>search</button></div>
-    <br>
-    <br>
-    <br>
-    
-    <div class="petimages">
-        <a target="_blank" href="/images/max.jpg">
-            <img src="/images/max.jpg" alt="pet"></a>
-            <div class ="description">BUDDY</div>
-        </div>
-    
-    <div class="petimages">
-        <a target="_blank" href="/images/sonu.jpg">
-            <img src="/images/sonu.jpg" alt="pet"></a>
-            <div class ="description">WINNY</div>
-        </div> 
-    <div class="petimages">
-        <a target="_blank" href="/images/rot.jpg">
-            <img src="/images/rot.jpg" alt="pet"></a>
-            <div class ="description">BOBBY</div>
-        </div>
-    
-    <div class="petimages">
-        <a target="_blank" href="/images/snow.jpg">
-            <img src="/images/snow.jpg" alt="pet"></a>
-            <div class ="description">CHERI</div>
-        </div>
-    
-    <div class="petimages">
-        <a target="_blank" href="/images/edward.jpg">
-            <img src="/images/edward.jpg" alt="pet"></a>
-            <div class ="description">ALEXIE</div>
-        </div>  
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Find your new best friend today! 🐶🐱</h2>
+    <p>Adopt, don’t shop. Give a loving home to pets in need.</p>
+    <a href="/pet" class="btn">View Available Pets</a>
+  </section>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <section class="container">
-        <div class = "slider-wrapper">
-            <div class="slider"> 
-                <img id="slider1" src="/images/bruno.jpg" alt="rescue" /> 
-                <img id="slider2" src="/images/simbha.jpg" alt="rescue"/>
-                <img id="slider3" src="/images/hadi.jpg" alt="rescue"/> 
-            </div> 
-            <div class="slider-nav">
-                <a href="#slider1"></a>
-                <a href="#slider2"></a>
-                <a href="#slider3"></a> 
-            </div>
-        </div>
-    </section>  
+  <!-- Featured Pets -->
+  <section class="pets">
+    <h2>New Featured Pets</h2>
+    <div class="pet-list">
+    <% if (pets && pets.length > 0) { %>
+  <% pets.slice(0, 4).forEach(pet => { %>
+    <div class="pet-card">
+      <img src="<%= pet.image %>" alt="<%= pet.name %>">
+      <h3><%= pet.name %></h3>
+      <p>Breed: <%= pet.breed %></p>
+      <p><%= pet.description %></p>
+      <a href="/pet/<%= pet._id %>" class="btn">Adopt Me</a>
+    </div>
+  <% }) %>
+<% } else { %>
+  <p>No pets available right now. Please check back later!</p>
+<% } %>
 
-</body> 
-</html>  
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Pet Adoption Portal. All rights reserved.</p>
+  </footer>
+</body>
+</html>

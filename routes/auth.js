@@ -11,7 +11,7 @@ router.use(express.urlencoded({extended:true}))
 router.use(express.json())
 
 router.get("/",(req,res)=>{
-    res.send("WLc to auth page")
+    res.render("login.ejs")
 })
 
 router.post("/register",async (req,res)=>{
@@ -56,6 +56,7 @@ router.post("/login",async (req,res)=>{
         const token = jwt.sign({userId: user._id,email:user.email},process.env.JWT_SECRET,{expiresIn:"1h"}
         )
         return res.status(200).json({message:"Login successful",token})
+        
     }
     catch(err){
         console.log("Error Logging in User: ",err)
