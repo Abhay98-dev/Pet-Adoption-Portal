@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Pet Adoption Portal</title>
+  <title>Register - Pet Adoption Portal</title>
   <link rel="stylesheet" href="/style.css">
   <style>
     .form-container {
@@ -47,14 +47,15 @@
 </head>
 <body>
   <div class="form-container">
-    <h2>Login</h2>
-    <form action="/auth/login" method="POST">
+    <h2>Register</h2>
+    <form action="/auth/register" method="POST">
+      <input type="text" name="username" placeholder="Username" required>
       <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
-      <button type="submit" class="btn-submit">Login</button>
+      <button type="submit" class="btn-submit">Register</button>
     </form>
     <div class="switch">
-      <p>Don’t have an account? <a href="/register">Register here</a></p>
+      <p>Already have an account? <a href="/login">Login here</a></p>
     </div>
   </div>
 </body>

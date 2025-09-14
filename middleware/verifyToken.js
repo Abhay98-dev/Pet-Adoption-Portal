@@ -12,7 +12,7 @@ function verifyToken(req,res,next){
         req.user=decoded
         next()
     }catch(err){
-        console.error("Token verification failed: ".err)
+        console.error("Token verification failed: ",err)
         return res.status(403).json({message:"Forbidden, invalid token"})
     }
 }

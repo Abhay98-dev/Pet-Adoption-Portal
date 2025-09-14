@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Dashboard - Pet Adoption Portal</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .dashboard {
+      padding: 40px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    .dashboard h2 {
+      color: #ff6f91;
+      margin: 0;
+    }
+    .btn-add {
+      background: #4CAF50;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-add:hover {
+      background: #388e3c;
+    }
+    .pet-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .pet-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .pet-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .btn-edit {
+      background: #ffb347;
+      margin-right: 8px;
+    }
+    .btn-delete {
+      background: #ff4f70;
+    }
+    .btn-edit, .btn-delete {
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-edit:hover { background: #ff9800; }
+    .btn-delete:hover { background: #e60039; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <h1>🐾 Pet Adoption Portal</h1>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/pet">Pets</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Dashboard -->
+  <section class="dashboard">
+    <div class="dashboard-header">
+      <h2>Owner Dashboard</h2>
+      <a href="/add-pet" class="btn-add">+ Add Pet</a>
+    </div>
+
+    <div class="pet-list">
+      <% if (pets && pets.length > 0) { %>
+        <% pets.forEach(pet => { %>
+          <div class="pet-card">
+            <img src="<%= pet.image %>" alt="<%= pet.name %>">
+            <h3><%= pet.name %></h3>
+            <p><strong>Breed:</strong> <%= pet.breed %></p>
+            <p><strong>Type:</strong> <%= pet.type %></p>
+
+            <!-- Edit Form -->
+            <form action="/pet/<%= pet._id %>?_method=PUT" method="POST" style="display:inline;">
+              <button type="submit" class="btn-edit">Edit</button>
+            </form>
+
+            <!-- Delete Form -->
+            <form action="/pet/<%= pet._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit" class="btn-delete">Delete</button>
+            </form>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No pets added yet.</p>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Pet Adoption Portal. All rights reserved.</p>
+  </footer>
+</body>
+</html>

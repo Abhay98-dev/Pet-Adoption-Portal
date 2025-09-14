@@ -14,54 +14,76 @@ router.get("/",(req,res)=>{
     res.render("login.ejs")
 })
 
-router.post("/register",async (req,res)=>{
-    const {username,email,password}= req.body
-    if(!username || !email || !password){
-        return res.status(400).json({message:"All the fields are required"})
-    }
-    const existingUser= await User.findOne({email})
-    if(existingUser){
-        return res.status(409).json({message:"User Already Exists!"})
-    }
-    const hashedPass=  await bcrypt.hash(password,saltRounds)
-    try{
-        const user= new User({
-            username,
-            email,
-            password:hashedPass
-        })
-        await user.save() 
-        return res.status(201).json({message:"User created",user})
-    }
-    catch(err){
-        console.log("Error registering new User: ",err)
-        return res.status(500).json({message:"Internal server Error"})
-    }
-})
+router.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
 
-router.post("/login",async (req,res)=>{
-    const {email,password}=req.body
-    if(!email || !password){
-        return res.status(400).json({message:"All the fields are required"})
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: "All the fields are required" });
+  }
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(409).json({ message: "User Already Exists!" });
+  }
+
+  const hashedPass = await bcrypt.hash(password, saltRounds);
+
+  try {
+    const user = new User({
+      username,
+      email,
+      password: hashedPass,
+      role: "buyer"   // ✅ always buyer
+    });
+
+    await user.save();
+    return res.status(201).json({ message: "User created", user });
+  } catch (err) {
+    console.log("Error registering new User: ", err);
+    return res.status(500).json({ message: "Internal server Error" });
+  }
+});
+
+
+
+
+// LOGIN
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send("All fields are required");
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).send("User not found");
+
+    const isPassValid = await bcrypt.compare(password, user.password);
+    if (!isPassValid) return res.status(401).send("Invalid password");
+
+    // ✅ Create JWT
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // ✅ Save JWT in cookie
+    res.cookie("token", token, { httpOnly: true });
+
+    // ✅ Redirect based on role
+    if (user.role === "owner") {
+      return res.redirect("/dashboard");
+    } else {
+      return res.redirect("/pet");
     }
-    try{
-        const user=User.findOne({email})
-        if(!user){
-            return res.status(404).json({message:"User not found"})
-        }
-        const isPassValid= bcrypt.compare(password,user.password)
-        if(!isPassValid){
-            return res.status(401).json({message:"Invalid Password"})
-        }
-        const token = jwt.sign({userId: user._id,email:user.email},process.env.JWT_SECRET,{expiresIn:"1h"}
-        )
-        return res.status(200).json({message:"Login successful",token})
-        
-    }
-    catch(err){
-        console.log("Error Logging in User: ",err)
-        return res.status(500).json({message:"Internal Server Error"})
-    }
-})
+  } catch (err) {
+    console.error("Error during login:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
 
 module.exports=router

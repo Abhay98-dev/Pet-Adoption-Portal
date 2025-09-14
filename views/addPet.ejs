@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Pet - Pet Adoption Portal</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .form-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .form-container h2 {
+      text-align: center;
+      color: #ff6f91;
+      margin-bottom: 20px;
+    }
+    .form-container label {
+      font-weight: bold;
+      display: block;
+      margin-top: 12px;
+    }
+    .form-container input,
+    .form-container textarea,
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+    }
+    .form-container textarea {
+      resize: none;
+      height: 100px;
+    }
+    .btn-submit {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #ff6f91;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-submit:hover {
+      background: #e05570;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <h1>🐾 Pet Adoption Portal</h1>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/pet">Pets</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Form -->
+  <div class="form-container">
+    <h2>Add New Pet</h2>
+    <form action="/pet" method="POST">
+      <label for="name">Pet Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="type">Type</label>
+      <select id="type" name="type" required>
+        <option value="">Select type</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+      </select>
+
+      <label for="breed">Breed</label>
+      <input type="text" id="breed" name="breed" required>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="image">Image Path (from /public/images)</label>
+      <input type="text" id="image" name="image" placeholder="/images/dog1.jpg" required>
+
+      <button type="submit" class="btn-submit">Add Pet</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Pet Adoption Portal. All rights reserved.</p>
+  </footer>
+</body>
+</html>

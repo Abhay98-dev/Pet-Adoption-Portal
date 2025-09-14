@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pets</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Pets - Pet Adoption Portal</title>
+  <link rel="stylesheet" href="/style.css"> 
 </head>
 <body>
-    <p>Wlc to pets page</p>
+  <!-- Header -->
+  <header>
+    <nav>
+      <h1>🐾 Pet Adoption Portal</h1>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/pet">Pets</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Pets Section -->
+  <section class="pets">
+    <h2>All Available Pets</h2>
+    <div class="pet-list">
+      <% if (pets && pets.length > 0) { %>
+        <% pets.forEach(pet => { %>
+          <div class="pet-card">
+            <img src="<%= pet.image %>" alt="<%= pet.name %>">
+            <h3><%= pet.name %></h3>
+            <p><strong>Type:</strong> <%= pet.type %></p>
+            <p><strong>Breed:</strong> <%= pet.breed %></p>
+            <p><%= pet.description %></p>
+            <a href="/pet/<%= pet._id %>" class="btn">Adopt Me</a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No pets available for adoption right now 🐾</p>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Pet Adoption Portal. All rights reserved.</p>
+  </footer>
 </body>
 </html>
